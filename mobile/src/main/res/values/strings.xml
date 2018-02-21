@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Helping Hands</string>
+    <string name="user_shared_preef">Shared_Pref_User</string>
+    <string name="SENT_TOKEN_TO_SERVER">token_to_server</string>
+    <string name="token">gcm_token</string>
 </resources>
