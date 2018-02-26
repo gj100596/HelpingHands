@@ -4,9 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by Gaurav on 19-09-2016.
- */
 
 public class Constant {
     public static String url = "http://ec2-35-154-68-218.ap-south-1.compute.amazonaws.com:8000";
