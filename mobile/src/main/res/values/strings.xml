@@ -6,4 +6,8 @@
 
     <string name="ride_start">Start!</string>
     <string name="ride_stop">Stop!</string>
+    <string name="user_data_shared_pref">user_data_shared_pref</string>
+    <string name="phone_user_shared_pref">phone_number</string>
+    <string name="token_user_shared_pref">TokenSent</string>
+    <string name="iid_user_shared_pred">iid_user</string>
 </resources>

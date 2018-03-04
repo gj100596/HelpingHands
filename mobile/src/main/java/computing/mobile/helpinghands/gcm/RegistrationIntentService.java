@@ -11,13 +11,18 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import computing.mobile.helpinghands.GPSService;
 import computing.mobile.helpinghands.MainActivity;
 import computing.mobile.helpinghands.R;
 import computing.mobile.helpinghands.util.Constant;
@@ -83,29 +88,38 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(final String token) {
-        String url = Constant.url+"/hisab/postid";
-        StringRequest tokenRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
+        String url = Constant.url + "/driver/updateIid";
+
+        JSONObject param = new JSONObject();
+        try {
+            SharedPreferences info = getSharedPreferences(getString(R.string.user_data_shared_pref),MODE_PRIVATE);
+            param.put("userID", info.getString(getString(R.string.phone_user_shared_pref),null));
+            param.put("IID",token );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences info = getSharedPreferences(getString(R.string.user_data_shared_pref),MODE_PRIVATE);
+        final SharedPreferences.Editor editor = info.edit();
+        editor.putString(getString(R.string.iid_user_shared_pred),token);
+        editor.apply();
+        Log.e("IID Request",param.toString());
+        JsonObjectRequest postIID = new JsonObjectRequest(Request.Method.POST, url, param,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
+                        editor.putBoolean(getString(R.string.token_user_shared_pref),true);
+                        editor.apply();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                     }
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-                SharedPreferences userDetail = MainActivity.thisAct.
-                        getSharedPreferences(getString(R.string.user_shared_preef), Context.MODE_PRIVATE);
-//                param.put("UserID", userDetail.getString(getString(R.string.shared_pref_number),getString(R.string.default_usernumber)));
-                param.put("IID", token);
-                return param;
-            }
-        };
-        ServerRequest.getInstance(this).getRequestQueue().add(tokenRequest);
+        );
+
+        ServerRequest.getInstance(this).getRequestQueue().add(postIID);
     }
 }
