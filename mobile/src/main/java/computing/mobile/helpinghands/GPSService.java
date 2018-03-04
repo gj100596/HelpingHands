@@ -125,7 +125,7 @@ Use if we want to send GPS Location per second.
 
         JSONObject param = new JSONObject();
         try {
-            param.put("UserID", "");
+            param.put("userID", "");
             param.put("GPS", lastLocationValue);
         } catch (JSONException e) {
             e.printStackTrace();

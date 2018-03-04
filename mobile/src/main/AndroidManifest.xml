@@ -53,6 +53,8 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".GPSService" android:enabled="true" />
+
         <service
             android:name=".gcm.GCMListener"
             android:exported="false">
