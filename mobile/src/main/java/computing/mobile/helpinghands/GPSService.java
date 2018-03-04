@@ -125,14 +125,13 @@ Use if we want to send GPS Location per second.
 
         JSONObject param = new JSONObject();
         try {
-            SharedPreferences info = getSharedPreferences(getString(R.string.user_data_shared_pref),MODE_PRIVATE);
-            param.put("userID", info.getString(getString(R.string.phone_user_shared_pref),null));
+            param.put("UserID", "");
             param.put("GPS", lastLocationValue);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest postGPS = new JsonObjectRequest(Request.Method.POST, url, param,
+        JsonObjectRequest dpUpload = new JsonObjectRequest(Request.Method.POST, url, param,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -147,7 +146,7 @@ Use if we want to send GPS Location per second.
                 }
         );
 
-        ServerRequest.getInstance(GPSService.this).getRequestQueue().add(postGPS);
+        ServerRequest.getInstance(GPSService.this).getRequestQueue().add(dpUpload);
     }
 
     @Override
