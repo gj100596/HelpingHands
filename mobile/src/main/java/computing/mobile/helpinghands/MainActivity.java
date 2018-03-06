@@ -1,6 +1,5 @@
 package computing.mobile.helpinghands;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             builder.show();
         }
 
-        checkIfToekenSent();
+        checkIfTokenSent();
 
         mStartButton = findViewById(R.id.start);
 
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void checkIfToekenSent() {
+    private void checkIfTokenSent() {
         SharedPreferences info = getSharedPreferences(getString(R.string.user_data_shared_pref),MODE_PRIVATE);
         if(info.getString(getString(R.string.iid_user_shared_pred),null)==null){
             Intent gcmToken = new Intent(MainActivity.thisAct, RegistrationIntentService.class);

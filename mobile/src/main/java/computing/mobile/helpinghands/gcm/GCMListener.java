@@ -52,11 +52,13 @@ public class GCMListener extends GcmListenerService {
 
         if (!data.isEmpty()) {
             try {
-                JSONObject jsonObject = new JSONObject(data.getString("msg"));
-                String type = jsonObject.getString("type");
-                if (type.equalsIgnoreCase(NOTIFICATION_TYPE_REQUEST_RESPONSE)){
+                JSONObject jsonObject = new JSONObject();//data.getString("msg"));
+                showNotification(jsonObject);
 
-                }
+//                String type = jsonObject.getString("type");
+//                if (type.equalsIgnoreCase(NOTIFICATION_TYPE_REQUEST_RESPONSE)){
+//
+//                }
                 /*
                     handleRequestResponse(jsonObject);
                 else if (type.equalsIgnoreCase(NOTIFICATION_TYPE_REMINDER))
@@ -64,38 +66,38 @@ public class GCMListener extends GcmListenerService {
                 else
                     handleReceivedRequest(jsonObject);
                     */
-            } catch (JSONException e) {
+            } catch (Exception e) {
             }
         }
     }
 
-    /*
-    private void showReminder(JSONObject message) {
+
+    private void showNotification(JSONObject message) {
         try {
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            String type = message.getString("type");
-            String requestingUser = message.getString("req_user");
-            int amount = message.getInt("amount");
-            JSONArray jsonData = message.getJSONArray("transaction");
-            String name = message.getString("name");
+//            String type = message.getString("type");
+//            String requestingUser = message.getString("req_user");
+//            int amount = message.getInt("amount");
+//            JSONArray jsonData = message.getJSONArray("transaction");
+//            String name = message.getString("name");
 
 
-            Intent notificationIntent = new Intent(this, MainActivity.class);
-            Bundle reminder = new Bundle();
-            reminder.putString("Type", type);
-            reminder.putString("User", requestingUser);
-            reminder.putString("Name", name);
-            reminder.putInt("Sum", amount);
-            reminder.putString("data", jsonData.toString());
-            notificationIntent.putExtras(reminder);
+//            Intent notificationIntent = new Intent(this, MainActivity.class);
+//            Bundle reminder = new Bundle();
+//            reminder.putString("Type", type);
+//            reminder.putString("User", requestingUser);
+//            reminder.putString("Name", name);
+//            reminder.putInt("Sum", amount);
+//            reminder.putString("data", jsonData.toString());
+//            notificationIntent.putExtras(reminder);
 
-            PendingIntent contentIntent =
-                    PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            PendingIntent contentIntent =
+// this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            String messageTitle = name + getString(R.string.owe_me);
-            String messageBody = name + getString(R.string.reminded_msg_1) + amount + getString(R.string.reminded_msg_2);
+            String messageTitle = "AMBULANCE APPROACHING!!!";
+            String messageBody = "Please move to left, Ambulance Approaching.";
             Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
@@ -108,29 +110,20 @@ public class GCMListener extends GcmListenerService {
                     .setAutoCancel(true)
                     .setNumber(++NOTIFICATION_NUM);
 
-            mBuilder.setContentIntent(contentIntent);
-            SharedPreferences userDetail =
-                    getSharedPreferences(getString(R.string.user_shared_preef), Context.MODE_PRIVATE);
-            Boolean sound = userDetail.getBoolean(getString(R.string.not_sound), true);
-            Boolean vibrate = userDetail.getBoolean(getString(R.string.not_vibrate), true);
+//            mBuilder.setContentIntent(contentIntent);
 
-            if(sound && vibrate)
-                mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
-            else if(sound)
-                mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS );
-            else if(vibrate)
-                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
-            else
-                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
+
+            mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 
 
             mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e("Notification error", e.toString());
         }
     }
 
+    /*
     private void handleRequestResponse(JSONObject message) {
         try {
             NotificationManager mNotificationManager =
