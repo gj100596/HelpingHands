@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="computing.mobile.ambulance">
+        package="computing.mobile.ambulance">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,13 +24,24 @@
         <service
             android:name=".GPS"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <uses-library android:name="com.google.android.maps" />
 
+        <service
+            android:name=".SirenService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <receiver
+            android:name="computing.mobile.ambulance.SirenBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="computing.mobile.ambulance.siren"/>
+            </intent-filter>
+        </receiver>
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
