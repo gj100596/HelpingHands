@@ -1,6 +1,7 @@
 package computing.mobile.ambulance;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -157,15 +158,18 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-//        else{
-//            Toast.makeText(MainActivity.this
-//            ,"Permission OK",Toast.LENGTH_SHORT).show();
-//        }
 
-//        textview = (TextView)findViewById(R.id.textViewgps);
         Intent gpsintent = new Intent(MainActivity.this,GPS.class);
         startService(gpsintent);
-//        textview.setText("Location of Ambulance is :"+"Loading ....");
+
+
+        SirenService service = new SirenService();
+        Intent intent = new Intent(MainActivity.this, service.getClass());
+        if (!isMyServiceRunning(service.getClass())) {
+            startService(intent);
+        }
+
+
 
 
 //        sendLocation =(Button)findViewById(R.id.btnsendgps);
@@ -185,6 +189,19 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
+    }
+
 
 
 
