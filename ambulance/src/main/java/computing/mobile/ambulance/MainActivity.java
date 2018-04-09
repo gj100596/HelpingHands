@@ -41,34 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void sendGPStoServer(String lastLocationValue) {
-        String url = Constant.url + "/ambulance/gps";
 
-        JSONObject param = new JSONObject();
-        try {
-            param.put("userID", "");
-            param.put("GPS", lastLocationValue);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest dpUpload = new JsonObjectRequest(Request.Method.POST, url, param,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }
-        );
-
-        ServerRequest.getInstance(MainActivity.this).getRequestQueue().add(dpUpload);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +52,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                != PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &&
+        ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+
         {
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.RECORD_AUDIO}, 1);
 
         }
 
@@ -98,20 +78,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        textview = (TextView)findViewById(R.id.textViewgps);
-        Intent gpsintent = new Intent(MainActivity.this,GPS.class);
-        startService(gpsintent);
-        textview.setText("Location of Ambulance is :" + "Loading ....");
-
-
-        sendLocation =(Button)findViewById(R.id.btnsendgps);
-        sendLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendGPStoServer(GPS.lastLocationValue);
-
-            }
-        });
+//        textview = (TextView)findViewById(R.id.textViewgps);
+//        Intent gpsintent = new Intent(MainActivity.this,GPS.class);
+//        startService(gpsintent);
+//        textview.setText("Location of Ambulance is :" + "Loading ....");
+//
+//
+//        sendLocation =(Button)findViewById(R.id.btnsendgps);
+//        sendLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendGPStoServer(GPS.lastLocationValue);
+//
+//            }
+//        });
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {

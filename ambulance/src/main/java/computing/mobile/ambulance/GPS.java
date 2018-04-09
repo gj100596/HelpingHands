@@ -47,7 +47,7 @@ public class GPS extends Service {
                 lastLocationValue = "" + location.getLatitude() + "," + location.getLongitude();
                 String time = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
                 Log.e("Location", "Time: " + time + " GPS:" + lastLocationValue);
-                MainActivity.textview.setText("Location of Ambulance is :"+GPS.lastLocationValue);
+//                MainActivity.textview.setText("Location of Ambulance is :"+GPS.lastLocationValue);
 
 
             }
