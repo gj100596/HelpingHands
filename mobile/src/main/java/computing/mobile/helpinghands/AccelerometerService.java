@@ -1,6 +1,5 @@
 package computing.mobile.helpinghands;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -26,20 +24,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import computing.mobile.helpinghands.util.Constant;
 import computing.mobile.helpinghands.util.ServerRequest;
 
-public class GPSService extends Service{
+public class AccelerometerService extends Service{
     LocationManager locationManagerNetwork, locationManagerGPS;
     LocationListener locationListener;
-    static String lastLocationValue = "null";
+    String lastLocationValue = "null";
     private Handler displayThread;
     SensorManager sensorManager;
     Sensor sensorAccelerometer;
@@ -51,7 +45,7 @@ public class GPSService extends Service{
     String LOG_ID = "ServiceLog";
 
 
-    public GPSService() {
+    public AccelerometerService() {
         locationManagerNetwork = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
         locationManagerGPS = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
     }
@@ -64,9 +58,9 @@ public class GPSService extends Service{
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        Log.e(LOG_ID,"Approach 1 GPS Service Started!");
+        Log.e(LOG_ID,"Approach 2: Accelerometer Service Started!");
 
+        super.onCreate();
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -91,12 +85,14 @@ public class GPSService extends Service{
                         float xDelta=xLast-xCurrent;
                         float yDelta=yLast-yCurrent;
                         if(Math.sqrt(xDelta*xDelta/2)>ACCELERATION_SPEED) {
-                            Log.d(LOG_ID,"Approach 1 Vehicle Moving. Sending GPS.");
-                            sendGPStoServer(lastLocationValue);
+                            Log.d(LOG_ID,"Approach 2 Device Moving. Starting Siren Service");
+                            Intent siren = new Intent(AccelerometerService.this,SirenService.class);
+                            startService(siren);
                         }
-//                        if(Math.sqrt(yDelta*yDelta/2)>5) {
-//                            Log.d(LOG_TAG,"The device is moved vertically.");
-//                        }
+                        else{
+                            Intent siren = new Intent(AccelerometerService.this,SirenService.class);
+                            stopService(siren);
+                        }
 
                         // Update last x and y
                         xLast = xCurrent;
@@ -121,8 +117,6 @@ public class GPSService extends Service{
                 lastLocationValue = "" + location.getLatitude() + "," + location.getLongitude();
                 String time = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
                 Log.e("Location", "Time: " + time + " GPS:" + lastLocationValue);
-
-//                sendGPStoServer(lastLocationValue);
             }
 
             @Override
@@ -159,64 +153,21 @@ public class GPSService extends Service{
         } catch (IllegalArgumentException ex) {
             Log.e("Error", "gps provider does not exist " + ex.getMessage());
         }
-
-/*
-Use if we want to send GPS Location per second.
-        displayThread = new Handler();
-        displayThread.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String time = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-                String value = time + "," + lastLocationValue;
-                Log.e("Readings", time + "," + value);
-                sendGPStoServer(lastLocationValue);
-                displayThread.postDelayed(this, 1000);
-
-
-            }
-        }, 1000);
-*/
     }
 
-    private void sendGPStoServer(String lastLocationValue) {
-        String url = Constant.url + "/driver/gps";
-
-        JSONObject param = new JSONObject();
-        try {
-            SharedPreferences info = getSharedPreferences(getString(R.string.user_data_shared_pref),MODE_PRIVATE);
-            param.put("userID", info.getString(getString(R.string.phone_user_shared_pref),null));
-            param.put("GPS", lastLocationValue);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest postGPS = new JsonObjectRequest(Request.Method.POST, url, param,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }
-        );
-
-        ServerRequest.getInstance(GPSService.this).getRequestQueue().add(postGPS);
-    }
 
     @Override
     public void onDestroy() {
-        Log.e(LOG_ID,"Approach 1 GPS Service Destroying!");
         super.onDestroy();
+        Log.e(LOG_ID,"Approach 2 Accelerometer Service Destroying!");
+
         locationManagerNetwork.removeUpdates(locationListener);
         locationManagerGPS.removeUpdates(locationListener);
 //        displayThread.removeCallbacksAndMessages(null);
 
         sensorManager.unregisterListener(sensorEventListener);
+        Intent broadcastIntent = new Intent("computing.mobile.helpinghands.accelerometer");
+        sendBroadcast(broadcastIntent);
 
     }
 

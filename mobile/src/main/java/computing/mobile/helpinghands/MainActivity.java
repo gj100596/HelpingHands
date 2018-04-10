@@ -35,7 +35,7 @@ import computing.mobile.helpinghands.util.ServerRequest;
 public class MainActivity extends AppCompatActivity {
 
     public static Context thisAct;
-    private Button mStartButton;
+    private Button approach1,approach2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,28 +91,30 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
             builder.setCancelable(false);
             builder.show();
         }
 
         checkIfTokenSent();
 
-        mStartButton = findViewById(R.id.start);
+        approach1 = findViewById(R.id.approach1);
+        approach2 = findViewById(R.id.approach2);
 
-        mStartButton.setOnClickListener(new View.OnClickListener() {
+        approach1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mStartButton.getText().toString().equalsIgnoreCase(getString(R.string.ride_start))){
-                    mStartButton.setText(getString(R.string.ride_stop));
                     Intent serviceIntent = new Intent(MainActivity.this, GPSService.class);
                     startService(serviceIntent);
-                    Log.d(this.getClass().getName(), "Started");
-                }
-                else{
-                    mStartButton.setText(getString(R.string.ride_start));
-                    stopService(new Intent(MainActivity.this, GPSService.class));
-                }
+                    Log.d(this.getClass().getName(), "Approach 1 Started");
+            }
+        });
+
+        approach2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent serviceIntent = new Intent(MainActivity.this, AccelerometerService.class);
+                startService(serviceIntent);
+                Log.d(this.getClass().getName(), "Approach 2 Started");
             }
         });
 

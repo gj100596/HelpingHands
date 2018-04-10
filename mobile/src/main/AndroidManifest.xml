@@ -74,6 +74,27 @@
             android:name=".gcm.RegistrationIntentService"
             android:exported="false" />
 
+
+        <service
+            android:name=".AccelerometerService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <service
+            android:name=".SirenService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <receiver
+            android:name=".AccelerometerBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="computing.mobile.helpinghands.accelerometer"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

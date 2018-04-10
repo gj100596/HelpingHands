@@ -4,8 +4,8 @@
     <string name="SENT_TOKEN_TO_SERVER">token_to_server</string>
     <string name="token">gcm_token</string>
 
-    <string name="ride_start">Start!</string>
-    <string name="ride_stop">Stop!</string>
+    <string name="approach1">Approach 1 - GPS!</string>
+    <string name="approach2">Approach 2 - Siren!</string>
     <string name="user_data_shared_pref">user_data_shared_pref</string>
     <string name="phone_user_shared_pref">phone_number</string>
     <string name="token_user_shared_pref">TokenSent</string>
