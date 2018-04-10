@@ -1,5 +1,6 @@
 package computing.mobile.helpinghands;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,14 @@ public class GPSService extends Service{
     LocationListener locationListener;
     String lastLocationValue = "null";
     private Handler displayThread;
+    SensorManager sensorManager;
+    Sensor sensorAccelerometer;
+    SensorEventListener sensorEventListener;
+    Context context;
+    boolean start = true;
+    float xLast, yLast;
+    public static final String LOG_TAG = GPSService.class.getCanonicalName();
+
 
     public GPSService() {
         locationManagerNetwork = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
@@ -55,6 +64,51 @@ public class GPSService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                Sensor sensor = sensorEvent.sensor;
+
+                if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+//                    Log.e(LOG_TAG, "GX="+String.valueOf(sensorEvent.values[0])+"\nGY="+String.valueOf(sensorEvent.values[1])+"\nGZ="+String.valueOf(sensorEvent.values[2]));
+                    float xCurrent = sensorEvent.values[0]; // Get current x
+                    float yCurrent = sensorEvent.values[1]; // Get current y
+                    if(start){
+                        // Initialize last x and y
+                        xLast = xCurrent;
+                        yLast = yCurrent;
+                        start = false;
+                    }
+                    else{
+                        // Calculate variation between last x and current x, last y and current y
+                        float xDelta=xLast-xCurrent;
+                        float yDelta=yLast-yCurrent;
+                        if(Math.sqrt(xDelta*xDelta/2)>5) {
+                            Log.d(LOG_TAG,"The device is moved horizontally.");
+                        }
+                        if(Math.sqrt(yDelta*yDelta/2)>5) {
+                            Log.d(LOG_TAG,"The device is moved vertically.");
+                        }
+
+                        // Update last x and y
+                        xLast = xCurrent;
+                        yLast = yCurrent;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
+        sensorManager.registerListener(sensorEventListener, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         locationListener = new LocationListener() {
 
@@ -156,6 +210,8 @@ Use if we want to send GPS Location per second.
         locationManagerNetwork.removeUpdates(locationListener);
         locationManagerGPS.removeUpdates(locationListener);
 //        displayThread.removeCallbacksAndMessages(null);
+
+        sensorManager.unregisterListener(sensorEventListener);
 
     }
 
