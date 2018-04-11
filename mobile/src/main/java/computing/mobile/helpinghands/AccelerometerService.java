@@ -46,8 +46,7 @@ public class AccelerometerService extends Service{
 
 
     public AccelerometerService() {
-        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
     }
 
     @Override
@@ -61,6 +60,8 @@ public class AccelerometerService extends Service{
         Log.e(LOG_ID,"Approach 2: Accelerometer Service Started!");
 
         super.onCreate();
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

@@ -52,8 +52,7 @@ public class GPSService extends Service{
 
 
     public GPSService() {
-        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
     }
 
     @Override
@@ -66,7 +65,8 @@ public class GPSService extends Service{
     public void onCreate() {
         super.onCreate();
         Log.e(LOG_ID,"Approach 1 GPS Service Started!");
-
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

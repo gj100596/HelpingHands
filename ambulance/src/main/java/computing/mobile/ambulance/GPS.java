@@ -28,8 +28,7 @@ public class GPS extends Service {
 
 
     public GPS() {
-        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
     }
 
     @Override
@@ -39,6 +38,8 @@ public class GPS extends Service {
 
     public void onCreate() {
         super.onCreate();
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
 
