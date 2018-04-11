@@ -68,7 +68,7 @@ public class SirenService extends Service {
     private void ifAmbulance() {
         Log.e("ServiceRecording","IsAmbulance?");
 
-        String url = /*Constant.url + */"http://10.130.4.192:8000/isambulance";
+        String url = Constant.url + "/isambulance";
 
 
         JSONObject param = new JSONObject();
@@ -96,7 +96,7 @@ public class SirenService extends Service {
                         try {
                             if(response.getString("result").equalsIgnoreCase("yes")) {
                                 Log.e(LOG_ID,"Siren Found! Sending GPS");
-                                sendGPStoServer(GPSService.lastLocationValue);
+                                sendGPStoServer(AccelerometerService.lastLocationValue);
                             }
                                 // Send alert to further
 

@@ -34,7 +34,7 @@ import computing.mobile.helpinghands.util.ServerRequest;
 public class AccelerometerService extends Service{
     LocationManager locationManagerNetwork, locationManagerGPS;
     LocationListener locationListener;
-    String lastLocationValue = "null";
+    static String lastLocationValue = "null";
     private Handler displayThread;
     SensorManager sensorManager;
     Sensor sensorAccelerometer;
