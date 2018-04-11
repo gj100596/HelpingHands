@@ -48,10 +48,16 @@ public class MainActivity extends AppCompatActivity {
                         != PackageManager.PERMISSION_GRANTED
                         ||
                         ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                                != PackageManager.PERMISSION_GRANTED) {
+                                != PackageManager.PERMISSION_GRANTED
+                        ||
+                        ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO)
+                                != PackageManager.PERMISSION_GRANTED
+
+                ) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.RECORD_AUDIO
                     },
                     1);
         }

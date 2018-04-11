@@ -217,6 +217,8 @@ Use if we want to send GPS Location per second.
 //        displayThread.removeCallbacksAndMessages(null);
 
         sensorManager.unregisterListener(sensorEventListener);
+        Intent broadcastIntent = new Intent("computing.mobile.helpinghands.accelerometer");
+        sendBroadcast(broadcastIntent);
 
     }
 

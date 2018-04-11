@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
 
     <!-- Permissions required for Google Cloud Messaging -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +57,9 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".GPSService" android:enabled="true" />
+        <service
+            android:name=".GPSService"
+            android:enabled="true" />
 
         <service
             android:name=".gcm.GCMListener"
@@ -78,12 +83,12 @@
         <service
             android:name=".AccelerometerService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <service
             android:name=".SirenService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <receiver
             android:name=".AccelerometerBroadcastReceiver"
@@ -91,10 +96,19 @@
             android:exported="true"
             android:label="RestartServiceWhenStopped">
             <intent-filter>
-                <action android:name="computing.mobile.helpinghands.accelerometer"/>
+                <action android:name="computing.mobile.helpinghands.accelerometer" />
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".GPSBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="computing.mobile.helpinghands.gps" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

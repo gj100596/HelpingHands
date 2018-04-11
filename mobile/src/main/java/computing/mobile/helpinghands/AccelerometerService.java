@@ -86,8 +86,10 @@ public class AccelerometerService extends Service{
                         float yDelta=yLast-yCurrent;
                         if(Math.sqrt(xDelta*xDelta/2)>ACCELERATION_SPEED) {
                             Log.d(LOG_ID,"Approach 2 Device Moving. Starting Siren Service");
+                            sendGPStoServer(lastLocationValue);
                             Intent siren = new Intent(AccelerometerService.this,SirenService.class);
                             startService(siren);
+
                         }
                         else{
                             Intent siren = new Intent(AccelerometerService.this,SirenService.class);
@@ -169,6 +171,36 @@ public class AccelerometerService extends Service{
         Intent broadcastIntent = new Intent("computing.mobile.helpinghands.accelerometer");
         sendBroadcast(broadcastIntent);
 
+    }
+
+    private void sendGPStoServer(String lastLocationValue) {
+        String url = Constant.url + "/driver/gps";
+
+        JSONObject param = new JSONObject();
+        try {
+            SharedPreferences info = getSharedPreferences(getString(R.string.user_data_shared_pref),MODE_PRIVATE);
+            param.put("userID", info.getString(getString(R.string.phone_user_shared_pref),null));
+            param.put("GPS", lastLocationValue);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest postGPS = new JsonObjectRequest(Request.Method.POST, url, param,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        ServerRequest.getInstance(AccelerometerService.this).getRequestQueue().add(postGPS);
     }
 
 }

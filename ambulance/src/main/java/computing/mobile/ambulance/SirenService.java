@@ -69,7 +69,7 @@ public class SirenService extends Service {
     private void ifAmbulance() {
         Log.e("ServiceRecording","IsAmbulance?");
 
-        String url = /*Constant.url + */"http://10.16.23.129:8000/isambulance";
+        String url = Constant.url + "/isambulance";
 
 
         JSONObject param = new JSONObject();

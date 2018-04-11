@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
 
         {
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.RECORD_AUDIO}
+                    , 1);
 
         }
 
@@ -148,20 +148,8 @@ public class MainActivity extends AppCompatActivity {
             startService(intent);
         }
 
-
-
-
-//        sendLocation =(Button)findViewById(R.id.btnsendgps);
-//        sendLocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                sendGPStoServer(GPS.lastLocationValue);
-//
-//            }
-//        });
-
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
 
