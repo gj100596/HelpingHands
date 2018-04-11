@@ -48,8 +48,7 @@ import computing.mobile.ambulance.util.ServerRequest;
 //import static computing.mobile.ambulance.R.id.btnsendgps;
 //import static computing.mobile.ambulance.R.id.submenuarrow;
 
-public class MainActivity extends AppCompatActivity
-        implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity {
     public static Context ambulance_context;
     Button sendLocation;
     public static TextView textview;
@@ -57,60 +56,60 @@ public class MainActivity extends AppCompatActivity
     private GoogleMap mGoogleMap;
     private Handler updateMarkerThread;
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        mGoogleMap = googleMap;
-
-        try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            boolean success = mGoogleMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.style_json));
-
-            if (!success) {
-                Log.e(TAG, "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e(TAG, "Can't find style. Error: ", e);
-        }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
 //
-//        Log.d(TAG, "HERE");
+//        mGoogleMap = googleMap;
 //
-//        // Add a marker in Sydney, Australia,
-//        // and move the map's camera to the same location.
-//        LatLng sydney = new LatLng(-33.852, 151.211);
-//        mGoogleMap.addMarker(new MarkerOptions().position(sydney)
-//                .title("Marker in Sydney"));
-////        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12.0f));
-
-        final Handler firstLocationUpdateHandler = new Handler();
-        firstLocationUpdateHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String[] coordinates = GPS.lastLocationValue.split(",");
-                LatLng currentLocation = new LatLng(Double.valueOf(coordinates[0]), Double.valueOf(coordinates[1]));
-                mGoogleMap.addMarker(new MarkerOptions().position(currentLocation));
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14));
-            }
-        }, 3000);
-//        updateMarkerThread = new Handler();
-//        updateMarkerThread.postDelayed(new Runnable() {
+//        try {
+//            // Customise the styling of the base map using a JSON object defined
+//            // in a raw resource file.
+//            boolean success = mGoogleMap.setMapStyle(
+//                    MapStyleOptions.loadRawResourceStyle(
+//                            this, R.raw.style_json));
+//
+//            if (!success) {
+//                Log.e(TAG, "Style parsing failed.");
+//            }
+//        } catch (Resources.NotFoundException e) {
+//            Log.e(TAG, "Can't find style. Error: ", e);
+//        }
+////
+////        Log.d(TAG, "HERE");
+////
+////        // Add a marker in Sydney, Australia,
+////        // and move the map's camera to the same location.
+////        LatLng sydney = new LatLng(-33.852, 151.211);
+////        mGoogleMap.addMarker(new MarkerOptions().position(sydney)
+////                .title("Marker in Sydney"));
+//////        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+////        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12.0f));
+//
+//        final Handler firstLocationUpdateHandler = new Handler();
+//        firstLocationUpdateHandler.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
-//                LatLng mumbai = new LatLng(19.1405176,72.9165265);
-//                mGoogleMap.addMarker(new MarkerOptions().position(mumbai)
-//                        .title("Marker in Mumbai"));
-//                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(mumbai));
-//                updateMarkerThread.postDelayed(this, 5000);
-//
-//
+//                String[] coordinates = GPS.lastLocationValue.split(",");
+//                LatLng currentLocation = new LatLng(Double.valueOf(coordinates[0]), Double.valueOf(coordinates[1]));
+//                mGoogleMap.addMarker(new MarkerOptions().position(currentLocation));
+//                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14));
 //            }
-//        }, 5000);
-
-    }
+//        }, 3000);
+////        updateMarkerThread = new Handler();
+////        updateMarkerThread.postDelayed(new Runnable() {
+////            @Override
+////            public void run() {
+////                LatLng mumbai = new LatLng(19.1405176,72.9165265);
+////                mGoogleMap.addMarker(new MarkerOptions().position(mumbai)
+////                        .title("Marker in Mumbai"));
+////                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(mumbai));
+////                updateMarkerThread.postDelayed(this, 5000);
+////
+////
+////            }
+////        }, 5000);
+//
+//    }
 
 
 
@@ -166,9 +165,9 @@ public class MainActivity extends AppCompatActivity
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
