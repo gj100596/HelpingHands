@@ -176,9 +176,6 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-
-
-
 //    public void onDestroy() {
 //        stopService(new Intent(MainActivity.this, GPS.class));
 //        super.onDestroy();

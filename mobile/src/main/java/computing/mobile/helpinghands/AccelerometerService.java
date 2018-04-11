@@ -1,5 +1,6 @@
 package computing.mobile.helpinghands;
 
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -89,12 +90,15 @@ public class AccelerometerService extends Service{
                             Log.d(LOG_ID,"Approach 2 Device Moving. Starting Siren Service");
                             sendGPStoServer(lastLocationValue);
                             Intent siren = new Intent(AccelerometerService.this,SirenService.class);
-                            startService(siren);
+                            if (!isMyServiceRunning(SirenService.class)) {
+                                startService(siren);
+                            }
+
 
                         }
                         else{
                             Intent siren = new Intent(AccelerometerService.this,SirenService.class);
-                            stopService(siren);
+//                            stopService(siren);
                         }
 
                         // Update last x and y
@@ -202,6 +206,18 @@ public class AccelerometerService extends Service{
         );
 
         ServerRequest.getInstance(AccelerometerService.this).getRequestQueue().add(postGPS);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
     }
 
 }
