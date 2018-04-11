@@ -52,7 +52,6 @@ public class GPSService extends Service{
 
 
     public GPSService() {
-
     }
 
     @Override
@@ -65,6 +64,7 @@ public class GPSService extends Service{
     public void onCreate() {
         super.onCreate();
         Log.e(LOG_ID,"Approach 1 GPS Service Started!");
+
         locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 

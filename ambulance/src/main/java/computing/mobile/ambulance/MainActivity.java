@@ -142,11 +142,17 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Permission OK",Toast.LENGTH_SHORT).show();
         }
 
+        Intent i = new Intent(MainActivity.this,GPS.class);
+        if (!isMyServiceRunning(GPS.class)) {
+            startService(i);
+        }
+
         SirenService service = new SirenService();
         Intent intent = new Intent(MainActivity.this, service.getClass());
         if (!isMyServiceRunning(service.getClass())) {
             startService(intent);
         }
+
 
         // Retrieve the content view that renders the map.
 //        setContentView(R.layout.activity_main);
