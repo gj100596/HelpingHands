@@ -28,8 +28,8 @@ public class GPS extends Service {
 
 
     public GPS() {
-        locationManagerNetwork = (LocationManager) MainActivity.ambulance_context.getSystemService(Context.LOCATION_SERVICE);
-        locationManagerGPS = (LocationManager) MainActivity.ambulance_context.getSystemService(Context.LOCATION_SERVICE);
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override

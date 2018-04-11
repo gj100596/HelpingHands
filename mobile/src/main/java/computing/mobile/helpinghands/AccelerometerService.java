@@ -46,8 +46,8 @@ public class AccelerometerService extends Service{
 
 
     public AccelerometerService() {
-        locationManagerNetwork = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
-        locationManagerGPS = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override

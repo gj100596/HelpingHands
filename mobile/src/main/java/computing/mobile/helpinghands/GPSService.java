@@ -52,8 +52,8 @@ public class GPSService extends Service{
 
 
     public GPSService() {
-        locationManagerNetwork = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
-        locationManagerGPS = (LocationManager) MainActivity.thisAct.getSystemService(Context.LOCATION_SERVICE);
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
